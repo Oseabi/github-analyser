@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Analyser</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+    <div class="app">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="sidebar-logo">gh/analyser</div>
+          <nav class="sidebar-nav">
+            <div class="nav-item active" data-section="overview">
+              <span class="nav-icon">◈</span> Overview
+            </div>
+            <div class="nav-item" data-section="languages">
+              <span class="nav-icon">◉</span> Languages
+            </div>
+            <div class="nav-item" data-section="repos">
+              <span class="nav-icon">◫</span> Repos
+            </div>
+            <div class="nav-item" data-section="score">
+              <span class="nav-icon">◎</span> Score
+            </div>
+          </nav>
+        </div>
+        <div class="sidebar-bottom">
+          <button id="theme-toggle">
+            <span class="theme-icon">🌙</span>
+            <span class="theme-label">Dark mode</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main">
+
+        <!-- TOP BAR -->
+        <div class="topbar">
+          <div class="topbar-left">
+            <h1>GitHub <span>Analyser</span></h1>
+            <p class="topbar-sub">See what recruiters see when they visit your profile.</p>
+          </div>
+          <div class="topbar-badge">
+            <span class="badge-dot"></span>
+            powered by GitHub API
+          </div>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-section">
+          <div class="search-bar">
+            <input
+              type="text"
+              id="username-input"
+              placeholder="Enter a GitHub username..."
+            />
+            <button id="analyse-btn">Analyse →</button>
+          </div>
+          <p class="search-hint">Try your own username or anyone on GitHub</p>
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div id="empty-state" class="empty-state">
+          <div class="empty-grid">
+            <div class="empty-card">
+              <div class="empty-card-icon" style="background: var(--purple-soft); color: var(--purple);">◈</div>
+              <div class="empty-card-title">Profile Overview</div>
+              <div class="empty-card-desc">Avatar, bio, followers and following count</div>
+            </div>
+            <div class="empty-card">
+              <div class="empty-card-icon" style="background: var(--pink-soft); color: var(--pink);">◉</div>
+              <div class="empty-card-title">Top Languages</div>
+              <div class="empty-card-desc">Languages used across all public repos</div>
+            </div>
+            <div class="empty-card">
+              <div class="empty-card-icon" style="background: var(--orange-soft); color: var(--orange);">◫</div>
+              <div class="empty-card-title">Best Repos</div>
+              <div class="empty-card-desc">Top repositories ranked by stars earned</div>
+            </div>
+            <div class="empty-card">
+              <div class="empty-card-icon" style="background: var(--green-soft); color: var(--green);">◎</div>
+              <div class="empty-card-title">Recruiter Score</div>
+              <div class="empty-card-desc">An honest score based on profile activity</div>
+            </div>
+          </div>
+          <div class="empty-hint">Enter a GitHub username above to get started</div>
+        </div>
+
+        <!-- LOADING -->
+        <div id="loading" class="loading hidden">
+          <div class="loading-spinner"></div>
+          <p>Fetching GitHub data...</p>
+        </div>
+
+        <!-- ERROR -->
+        <div id="error-state" class="error-state hidden">
+          <div class="error-icon">🔍</div>
+          <div class="error-title">Profile not found</div>
+          <div class="error-desc">Check the username and try again.</div>
+        </div>
+
+        <!-- RESULTS -->
+        <div id="results" class="results hidden">
+
+          <!-- PROFILE -->
+          <div class="profile-card" id="section-overview">
+            <img id="profile-avatar" src="" alt="avatar" />
+            <div class="profile-info">
+              <div id="profile-name" class="profile-name"></div>
+              <div id="profile-login" class="profile-login"></div>
+              <div id="profile-bio" class="profile-bio"></div>
+              <div class="profile-stats">
+                <div class="pstat">
+                  <div class="pstat-num" id="stat-repos">0</div>
+                  <div class="pstat-label">Repos</div>
+                </div>
+                <div class="pstat">
+                  <div class="pstat-num" id="stat-followers">0</div>
+                  <div class="pstat-label">Followers</div>
+                </div>
+                <div class="pstat">
+                  <div class="pstat-num" id="stat-following">0</div>
+                  <div class="pstat-label">Following</div>
+                </div>
+                <div class="pstat">
+                  <div class="pstat-num" id="stat-stars">0</div>
+                  <div class="pstat-label">Stars</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCORE -->
+          <div class="score-card" id="section-score">
+            <div class="score-left">
+              <div class="score-label">Recruiter Score</div>
+              <div class="score-num" id="score-num">0</div>
+              <div class="score-desc" id="score-desc"></div>
+            </div>
+            <div class="score-right">
+              <div class="score-grade" id="score-grade">?</div>
+              <div class="score-grade-label">Grade</div>
+            </div>
+          </div>
+
+          <!-- STAT CARDS -->
+          <div class="stat-cards" id="section-stats">
+            <div class="stat-card stat-purple">
+              <div class="stat-card-num" id="card-repos">0</div>
+              <div class="stat-card-label">Public Repos</div>
+            </div>
+            <div class="stat-card stat-pink">
+              <div class="stat-card-num" id="card-stars">0</div>
+              <div class="stat-card-label">Total Stars</div>
+            </div>
+            <div class="stat-card stat-orange">
+              <div class="stat-card-num" id="card-followers">0</div>
+              <div class="stat-card-label">Followers</div>
+            </div>
+            <div class="stat-card stat-green">
+              <div class="stat-card-num" id="card-top-lang">—</div>
+              <div class="stat-card-label">Top Language</div>
+            </div>
+          </div>
+
+          <!-- GRID -->
+          <div class="grid" id="section-grid">
+            <div class="card">
+              <div class="card-title">Top Languages</div>
+              <div id="languages-list"></div>
+            </div>
+            <div class="card">
+              <div class="card-title">Top Repos by Stars</div>
+              <div id="repos-list"></div>
+            </div>
+          </div>
+
+          <!-- BREAKDOWN -->
+          <div class="card" id="section-breakdown">
+            <div class="card-title">Score Breakdown</div>
+            <div id="breakdown-list"></div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
