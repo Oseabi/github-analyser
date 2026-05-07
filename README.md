@@ -1,4 +1,4 @@
-# 🔍 GitHub Analyser
+#  GitHub Analyser
 
 > Enter any username. See what recruiters see.
 
@@ -6,7 +6,7 @@ A full GitHub profile analyser that fetches real data from the GitHub API and gi
 
 ---
 
-## 🔥 Why I built this
+##  Why I built this
 
 I looked at my own GitHub and realised I had no idea what recruiters actually saw when they visited. Was my profile good? Bad? Embarrassing? I had no way to know.
 
@@ -19,7 +19,7 @@ So I built something to find out.
 
 ---
 
-## ✨ Features
+##  Features
 
 - Fetches live data from the GitHub REST API
 - Calculates a recruiter score out of 100
@@ -31,7 +31,7 @@ So I built something to find out.
 
 ---
 
-## 🛠️ Built with
+##  Built with
 
 - Vanilla JavaScript
 - GitHub REST API
@@ -41,13 +41,13 @@ So I built something to find out.
 
 ---
 
-## 🚀 Live Demo
+##  Live Demo
 
-[Click here to try it](https://oseabi.github.io/github-analyser)
+https://github-analyser-jet.vercel.app
 
 ---
 
-## 🧠 What I learned
+##  What I learned
 
 - Promise.all() for parallel fetching
 - Array destructuring
